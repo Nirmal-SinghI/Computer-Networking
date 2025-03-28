@@ -1,0 +1,41 @@
+#Network Devices 
+
+What is a Network?
+
+
+To better understand the role of networks in the computing world, is to understand the roles of transportation in human lifes. 
+Same responsibilities with extra powers. 
+A computer network is a digital telecommunications network which allows nodes to share resources. 
+By nodes we mean a bunch of different networking devices which encompass mainly routers, hubs, switches and modems. 
+In computer networks, computing devices exchange data with each other using connections (data links) between these nodes.
+The data links are established over cable media such as wires or optic cables, or wireless media such as Wi-Fi.
+
+
+It would be better to understand how the network works if we ourselves build a Network to see how it actually happens.
+
+Building a Network.
+
+Client : A client is a device that accesses a service made available by a server.
+
+Servers : A device that provides functions or services for clients. The same device can be a client in some situations, 
+and a server in other situations. 
+
+Previously, in the paper we studied switches, routers, modems, and hubs. It would be better if we had a better 
+understanding of it now. 
+
+Switch : A switch is better to be taken as a machine that connects several devices in a home network, 
+which may comprise various devices like mobile phones, computers, even IOT devices like modern fridge 
+or smart TVs. A switch has many network interfaces/ports for end hosts to connect. Though It does not  
+provide connectivity between LANs over the internet.
+
+Routers : Routers behave the same way as does a switch but it connects LANs over the internet. 
+Its main purpose is to connect devices over the internet and transfer data between devices. 
+They are mostly wireless in the modern world, but previously used to be connected through wires.
+
+Modem : Modems are mostly machines that are not existent in the modern world, as they have been integrated 
+within the router making it a single machine. Modem connects devices on the network to connect on the internet. 
+Alas though their main purpose is to convert analog signals to digital signals which modern machines better understand.  
+
+
+Firewall : A firewall by the name itself is a wall that protects devices from fire here we mean viruses, worms and malwares. 
+A firewall comes in as hardware and as software. A hardware for a better security of a wide machine system.
