@@ -1,0 +1,29 @@
+Tcp/ip suite is a fundamental concept in networking which is a core part of the 
+Internet used by every private to public network. It’s better if try to understand 
+it from the beginning and getting a grasp of it’s layers and protocols
+
+The most basic question to begin with is: What is TCP/IP?
+
+TCP/IP(Transmission Control Protocol/Internet Protocol) in the most basic form is to 
+think of it as a set of communication protocols or in jargon language network protocols 
+connecting devices over the network and with other networks. It’s the way computers 
+communicate in a universal form, a language used by computers and all devices, no matter 
+the hardware or software.
+
+It’s like a ‘’postal system’’ for data transmission:
+- ’’TCP‘’ makes your data arrive safely and in the correct order (like tracking your package).
+- ’’IP’’ handles the delivery, making sure the package reaches the right address.
+
+
+‘’Why was TCP/IP Invented?’’
+
+1. Global Communication: A need for devices to connect and communicate with each other. It connects 
+billions of devices across the world 
+Example : computers, phones, servers,etc
+
+2. Interoperability:  Works on every hardware and with any operating system. 
+It’s something of a global standard protocol which every company uses.
+
+3. Scalability: It’s very scalable, handling small to massive global systems like the Internet.
+
+4. Robustness: Can recover from errors, lost data, or congestion.
