@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banach–Tarski Inspired Sphere Visualizer</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="overlay">
+        <h1>Banach–Tarski Inspired Visualizer</h1>
+        <p>
+          Educational approximation: this animation imitates paradox-like reassembly using finite point partitions and rigid transforms.
+          It is not a literal constructive implementation of the Banach–Tarski theorem.
+        </p>
+        <div id="hud">
+          <span id="pieceCountLabel">Pieces: 0</span>
+          <span id="progressLabel">Progress: 0%</span>
+          <span id="modeLabel">Mode: points</span>
+        </div>
+      </div>
+      <div id="narrationPanel">
+        <h2>Math Context</h2>
+        <p id="narrationText"></p>
+        <ul>
+          <li>Finite simulation with deterministic pseudo-random partitioning</li>
+          <li>Rigid motions applied piece-wise for visual reassembly</li>
+          <li>Two reconstructed targets shown as educational imitation</li>
+        </ul>
+      </div>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
