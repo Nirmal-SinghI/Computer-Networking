@@ -1,7 +1,7 @@
 {
-  "name": "computer-networking",
+  "name": "banach-tarski-visualizer",
   "version": "1.0.0",
-  "description": "\"# Flight-Tracker--Project\"  \"# Flight-Tracker--Project\"",
+  "description": "Interactive Banach-Tarski-inspired sphere visualization with configurable parameters and animation controls",
   "main": "index.js",
   "scripts": {
     "test": "echo \"No tests configured\"",
