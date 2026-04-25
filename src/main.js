@@ -115,12 +115,15 @@ const params = {
   showTargets: true,
   preset: presetNames[0],
   play: () => {
+    presentationState.active = false;
     params.autoPlay = true;
   },
   pause: () => {
+    presentationState.active = false;
     params.autoPlay = false;
   },
   reset: () => {
+    presentationState.active = false;
     params.autoPlay = false;
     params.progress = 0;
     if (progressController) progressController.updateDisplay();
@@ -131,6 +134,8 @@ const params = {
   applyPreset: () => {
     applyPreset(params.preset);
   },
+  startPresentation: () => startPresentationMode(),
+  stopPresentation: () => stopPresentationMode(),
 };
 
 const partitionState = {
@@ -143,6 +148,13 @@ let progressController;
 let subsetController;
 let renderModeController;
 let narrationStage = -1;
+let presentationStage = -1;
+
+const presentationState = {
+  active: false,
+  elapsed: 0,
+  duration: 42,
+};
 
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
@@ -314,7 +326,7 @@ function updatePiecesForProgress() {
 function updateHud() {
   pieceCountLabel.textContent = `Pieces: ${partitionState.maxSubsetIndex + 1} subsets / ${partitionState.pointCount} points`;
   progressLabel.textContent = `Progress: ${Math.round(clamp(params.progress, 0, 1) * 100)}%`;
-  modeLabel.textContent = `Mode: ${params.renderMode}`;
+  modeLabel.textContent = `Mode: ${params.renderMode}${presentationState.active ? ' (presentation)' : ''}`;
 }
 
 function updateVisibilityMode() {
@@ -404,6 +416,97 @@ function saveScreenshot() {
   a.click();
 }
 
+function resetCameraView() {
+  camera.position.set(0, 1.7, 4.2);
+  controls.target.set(0, 0, 0);
+  controls.update();
+}
+
+function startPresentationMode() {
+  presentationState.active = true;
+  presentationState.elapsed = 0;
+  presentationStage = -1;
+  params.autoPlay = false;
+  params.progress = 0;
+  applyPreset('Classroom Intro');
+  resetCameraView();
+  progressController?.updateDisplay();
+  updatePiecesForProgress();
+  updateVisibilityMode();
+}
+
+function stopPresentationMode(keepState = true) {
+  presentationState.active = false;
+  presentationState.elapsed = 0;
+  presentationStage = -1;
+  params.autoPlay = false;
+  if (!keepState) {
+    params.progress = 0;
+    progressController?.updateDisplay();
+    updatePiecesForProgress();
+  }
+  updateVisibilityMode();
+}
+
+function enterPresentationStage(stage) {
+  if (stage === 0) {
+    applyPreset('Classroom Intro');
+    params.progress = 0;
+  } else if (stage === 1) {
+    applyPreset('Classroom Intro');
+    params.visibleSubset = -1;
+    params.renderMode = 'points';
+  } else if (stage === 2) {
+    applyPreset('High Contrast');
+    params.renderMode = 'wireframe';
+    params.visibleSubset = 2;
+    params.progress = 0.6;
+  } else if (stage === 3) {
+    applyPreset('Dense Experimental');
+    params.renderMode = 'points';
+    params.visibleSubset = -1;
+    params.progress = 0;
+  } else if (stage === 4) {
+    params.renderMode = 'wireframe';
+    params.progress = 1;
+  }
+
+  gui.controllersRecursive().forEach((c) => c.updateDisplay());
+  updatePiecesForProgress();
+  updateVisibilityMode();
+}
+
+function updatePresentationMode(dt) {
+  presentationState.elapsed += dt;
+  const t = presentationState.elapsed;
+
+  let stage = 0;
+  if (t >= 6 && t < 20) stage = 1;
+  else if (t >= 20 && t < 27) stage = 2;
+  else if (t >= 27 && t < 39) stage = 3;
+  else if (t >= 39) stage = 4;
+
+  if (stage !== presentationStage) {
+    presentationStage = stage;
+    enterPresentationStage(stage);
+  }
+
+  if (stage === 1) {
+    const stageT = clamp((t - 6) / 14, 0, 1);
+    params.progress = stageT;
+  } else if (stage === 3) {
+    const stageT = clamp((t - 27) / 12, 0, 1);
+    params.progress = stageT;
+  }
+
+  progressController?.updateDisplay();
+  updatePiecesForProgress();
+
+  if (presentationState.elapsed >= presentationState.duration) {
+    stopPresentationMode(true);
+  }
+}
+
 const gui = new GUI({ title: 'Controls' });
 const modelFolder = gui.addFolder('Model');
 modelFolder.add(params, 'partitions', 2, 24, 1).name('Partitions').onFinishChange(() => rebuildPieces());
@@ -440,6 +543,11 @@ toolsFolder.add(params, 'loadPreset').name('Load preset JSON');
 toolsFolder.add(params, 'screenshot').name('Export screenshot');
 toolsFolder.open();
 
+const presentationFolder = gui.addFolder('Presentation');
+presentationFolder.add(params, 'startPresentation').name('Start presentation');
+presentationFolder.add(params, 'stopPresentation').name('Stop presentation');
+presentationFolder.open();
+
 applyPreset('Classroom Intro');
 rebuildPieces();
 updatePiecesForProgress();
@@ -450,7 +558,9 @@ function animate() {
   requestAnimationFrame(animate);
 
   const dt = Math.min(clock.getDelta(), 0.1);
-  if (params.autoPlay) {
+  if (presentationState.active) {
+    updatePresentationMode(dt);
+  } else if (params.autoPlay) {
     params.progress += dt * params.animationSpeed;
     if (params.progress >= 1) {
       params.progress = 1;

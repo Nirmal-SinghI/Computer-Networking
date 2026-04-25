@@ -19,6 +19,7 @@ This project is an **educational approximation** of Banach–Tarski-style reasse
   - render mode (points / wireframe / solid)
   - subset visibility filtering
 - Playback controls: play, pause, scrub timeline, reset
+- Presentation mode: one-click scripted classroom demo sequence
 - Preset system:
   - built-in presets
   - export preset to JSON
@@ -64,6 +65,13 @@ Included presets in the control panel:
 1. **Classroom Intro** – balanced settings for explanation
 2. **High Contrast** – stronger visual separation of subsets
 3. **Dense Experimental** – heavier point density for richer effect
+
+## Presentation Mode
+
+Use the **Presentation** folder in the control panel:
+
+- **Start presentation**: runs a guided sequence across presets/stages
+- **Stop presentation**: exits scripted mode and returns manual control
 
 ## Recommended Presentation Flow
 
